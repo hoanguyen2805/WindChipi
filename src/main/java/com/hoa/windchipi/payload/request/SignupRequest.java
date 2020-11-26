@@ -18,6 +18,8 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
+    private String full_name;
+    
     private String phone;
     
     private String address;
@@ -51,7 +53,15 @@ public class SignupRequest {
     }
     
     
-    public String getPhone() {
+    public String getFull_name() {
+		return full_name;
+	}
+
+	public void setFull_name(String full_name) {
+		this.full_name = full_name;
+	}
+
+	public String getPhone() {
 		return phone;
 	}
 

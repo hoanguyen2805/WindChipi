@@ -33,6 +33,7 @@ public class User {
 	@Size(max = 120)
 	private String password;
 	
+	private String full_name;
 	private String phone;
 	private String address;
 
@@ -49,10 +50,11 @@ public class User {
 	}
 
 	
-	public User(String username, String email, String password, String phone, String address) {
+	public User(String username, String email, String password, String full_name, String phone, String address) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.full_name = full_name;
 		this.phone = phone;
 		this.address = address;
 	}
@@ -88,6 +90,18 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+	public String getFull_name() {
+		return full_name;
+	}
+
+
+	public void setFull_name(String full_name) {
+		this.full_name = full_name;
+	}
+
+
 	public String getPhone() {
 		return phone;
 	}
@@ -111,4 +125,5 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
 }
