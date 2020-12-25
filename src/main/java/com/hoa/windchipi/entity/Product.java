@@ -2,6 +2,9 @@ package com.hoa.windchipi.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -17,23 +20,20 @@ public class Product implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
-
+	private Long id;
 	private String images;
-
 	private String name;
-
 	private double price;
-
+	private int sold;
 	private int total;
+	private String describe;
 
-	private int view;
-
-	//bi-directional many-to-one association to Comment
+	
 	@OneToMany(mappedBy="product")
 	private List<Comment> comments;
 
 	//bi-directional many-to-one association to Category
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="categories_id")
 	private Category category;
@@ -41,11 +41,11 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -81,13 +81,24 @@ public class Product implements Serializable {
 		this.total = total;
 	}
 
-	public int getView() {
-		return this.view;
+
+	public int getSold() {
+		return sold;
 	}
 
-	public void setView(int view) {
-		this.view = view;
+	public void setSolde(int sold) {
+		this.sold = sold;
 	}
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+
+
 
 	public List<Comment> getComments() {
 		return this.comments;

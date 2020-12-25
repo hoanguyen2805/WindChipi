@@ -2,6 +2,9 @@ package com.hoa.windchipi.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.Timestamp;
 
 
@@ -17,45 +20,46 @@ public class Comment implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
-	private String content;
+	private String comment_content;
 
-	private Timestamp time;
+	private String date_created;
 
-	//bi-directional many-to-one association to Product
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Product product;
 
-	//bi-directional many-to-one association to User
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
 
 	public Comment() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getContent() {
-		return this.content;
+
+	public String getComment_content() {
+		return comment_content;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setComment_content(String comment_content) {
+		this.comment_content = comment_content;
 	}
 
-	public Timestamp getTime() {
-		return this.time;
+	public String getDate_created() {
+		return date_created;
 	}
 
-	public void setTime(Timestamp time) {
-		this.time = time;
+	public void setDate_created(String date_created) {
+		this.date_created = date_created;
 	}
 
 	public Product getProduct() {

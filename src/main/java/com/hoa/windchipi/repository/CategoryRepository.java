@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.hoa.windchipi.entity.Category;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Integer>{
+public interface CategoryRepository extends JpaRepository<Category, Long>{
 	List<Category> findAll();
+
 }

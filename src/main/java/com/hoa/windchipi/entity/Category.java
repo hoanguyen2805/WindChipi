@@ -2,6 +2,10 @@ package com.hoa.windchipi.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hoa.windchipi.model.ProductDTO;
+
 import java.util.List;
 
 
@@ -17,22 +21,23 @@ public class Category implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	private String name;
 
-	//bi-directional many-to-one association to Product
+
+
 	@OneToMany(mappedBy="category")
 	private List<Product> products;
 
 	public Category() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

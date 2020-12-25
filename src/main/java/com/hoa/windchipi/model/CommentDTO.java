@@ -1,8 +1,5 @@
 package com.hoa.windchipi.model;
 
-import java.util.List;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDTO {
+public class CommentDTO {
 	private Long id;
-	private String name;
-	private List<ProductDTO> products;
+	private String comment_content;
+	private String date_created;
+	private String username;
+	private Long product_id;
 }
