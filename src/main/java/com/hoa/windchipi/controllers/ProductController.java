@@ -1,6 +1,7 @@
 package com.hoa.windchipi.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,5 +64,15 @@ public class ProductController {
 	public ResponseEntity<List<Product>> getRelatedProduct(@PathVariable("category") Long category, @PathVariable("id") Long id){
 		return new ResponseEntity<List<Product>>(productService.getRelatedProducts(category, id), HttpStatus.OK);
 	}
+	
+	@GetMapping("gettotal/{id}")
+	public ResponseEntity<Integer> getTotalProduct(@PathVariable("id") Long id){
+		return new ResponseEntity<Integer>(productService.getTotalProduct(id), HttpStatus.OK);
+	}
+//	@PostMapping("/productscart")
+//	public ResponseEntity<List<ProductDTO>> getProductByQueryIn(@RequestBody String[] listids ){
+//		List<String> list_id = new ArrayList<String>(Arrays.asList(listids));
+//		return new ResponseEntity<List<ProductDTO>>(productService.getProductByQueryIn(list_id), HttpStatus.OK);
+//	}
 	
 }

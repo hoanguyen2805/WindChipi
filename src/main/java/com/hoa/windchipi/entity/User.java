@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
 @Entity
 @Table(	name = "users", 
 		uniqueConstraints = { 
@@ -39,6 +40,9 @@ public class User {
 
 	@OneToMany(mappedBy="user")
 	private List<Comment> comments;
+	
+	@OneToMany(mappedBy="user")
+	private List<Order> orders;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 

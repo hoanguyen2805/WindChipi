@@ -71,4 +71,15 @@ public class ProductService {
 	public List<Product> getRelatedProducts(Long category_id, Long product_id){
 		return productRepository.getRelatedProduct(category_id, product_id);
 	}
+	
+	public int getTotalProduct(Long id){
+		return productRepository.findById(id).get().getTotal();
+	}
+//	public List<ProductDTO> getProductByQueryIn(List<String> ids){
+//		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
+//		productRepository.getProductByQueryIn(ids).forEach(item -> {
+//			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(), item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+//		});
+//		return productsDTO;
+//	}
 }

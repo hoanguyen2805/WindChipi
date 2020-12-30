@@ -21,4 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	@Query(value="SELECT TOP 4 * FROM products WHERE categories_id = :category AND id != :product_id", nativeQuery = true)
 	List<Product> getRelatedProduct(@Param("category") Long category, @Param("product_id") Long product_id);
 
+//	@Query(value="SELECT * FROM products WHERE id IN (:ids)", nativeQuery = true)
+//	List<Product> getProductByQueryIn(@Param("ids") List<String> ids);
 }

@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 import java.util.List;
 
 
@@ -31,7 +32,8 @@ public class Product implements Serializable {
 	
 	@OneToMany(mappedBy="product")
 	private List<Comment> comments;
-
+	@OneToMany(mappedBy="product")
+	private List<Order> orders;
 	//bi-directional many-to-one association to Category
 	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -86,7 +88,7 @@ public class Product implements Serializable {
 		return sold;
 	}
 
-	public void setSolde(int sold) {
+	public void setSold(int sold) {
 		this.sold = sold;
 	}
 

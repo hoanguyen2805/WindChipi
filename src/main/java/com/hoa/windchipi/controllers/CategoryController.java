@@ -29,9 +29,4 @@ public class CategoryController {
 		return new ResponseEntity<List<CategoryDTO>>(listLoaiSP, HttpStatus.OK);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<CategoryDTO> getProductByCategory(@PathVariable Long id){
-		return new ResponseEntity<CategoryDTO>(categoryService.getProductByCategory(id), HttpStatus.OK);
-	}
-	
 }
