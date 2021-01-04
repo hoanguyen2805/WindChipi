@@ -1,6 +1,8 @@
 package com.hoa.windchipi.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 
 
@@ -16,7 +18,7 @@ public class Contact implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 
 	private String email;
 
@@ -26,16 +28,16 @@ public class Contact implements Serializable {
 
 	private String phone;
 
-	private String date_created;
+	private Timestamp date_created;
 	
 	public Contact() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -72,11 +74,11 @@ public class Contact implements Serializable {
 		this.full_name = full_name;
 	}
 
-	public String getDate_created() {
+	public Timestamp getDate_created() {
 		return date_created;
 	}
 
-	public void setDate_created(String date_created) {
+	public void setDate_created(Timestamp date_created) {
 		this.date_created = date_created;
 	}
 

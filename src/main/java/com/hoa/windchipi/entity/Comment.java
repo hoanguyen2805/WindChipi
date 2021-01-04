@@ -1,11 +1,11 @@
 package com.hoa.windchipi.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.sql.Timestamp;
 
 
 /**
@@ -24,7 +24,7 @@ public class Comment implements Serializable {
 
 	private String comment_content;
 
-	private String date_created;
+	private Timestamp date_created;
 
 	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -54,11 +54,11 @@ public class Comment implements Serializable {
 		this.comment_content = comment_content;
 	}
 
-	public String getDate_created() {
+	public Timestamp getDate_created() {
 		return date_created;
 	}
 
-	public void setDate_created(String date_created) {
+	public void setDate_created(Timestamp date_created) {
 		this.date_created = date_created;
 	}
 

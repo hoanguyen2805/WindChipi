@@ -11,9 +11,13 @@ public class OrderDTO {
 	private String name;
 	private Long idProduct;
 	private double price;
-	private int numberProducts;
+	private int number_products;
 	private String status;
-	private double totalMoney;
-	private double freightCost;
-	private String dateCreated;
+	private double total_money;
+	private double freight_cost;
+	private String date_created;
+	
+	private String username;
+	private Long idUser;
+	
 }

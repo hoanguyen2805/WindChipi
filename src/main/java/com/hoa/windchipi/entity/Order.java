@@ -32,6 +32,16 @@ public class Order implements Serializable {
 
 	private Timestamp date_created;
 	
+	private double price;
+	
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	@Column(name="total_money")
 	private double totalMoney;
 

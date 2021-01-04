@@ -1,21 +1,22 @@
 package com.hoa.windchipi.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
+public class ContactDTO {
 	private Long id;
-	private String comment_content;
+
+	private String email;
+
+	private String full_name;
+
+	private String message;
+
+	private String phone;
+
 	private String date_created;
-	
-	private String username;
-	private Long user_id;
-	
-	private String product_name;
-	private Long product_id;
-	
 }

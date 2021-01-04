@@ -132,4 +132,12 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", images=" + images + ", name=" + name + ", price=" + price + ", sold=" + sold
+				+ ", total=" + total + ", describe=" + describe + ", comments=" + comments + ", orders=" + orders
+				+ ", category=" + category + "]";
+	}
+	
+
 }
