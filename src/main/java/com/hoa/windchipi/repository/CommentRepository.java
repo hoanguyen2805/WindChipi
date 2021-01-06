@@ -8,10 +8,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hoa.windchipi.entity.Comment;
+import com.hoa.windchipi.entity.Product;
+import com.hoa.windchipi.entity.User;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 	@Query("SELECT c FROM Comment c WHERE c.product.id = :id")
 	List<Comment> getCommentByProductId(@Param("id") Long id);
 
+	List<Comment> findByUser(User user);
+
+	List<Comment> findByProduct(Product product);
 }

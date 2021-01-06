@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.hoa.windchipi.entity.Product;
 import com.hoa.windchipi.model.ProductDTO;
+import com.hoa.windchipi.repository.CommentRepository;
+import com.hoa.windchipi.repository.OrderRepository;
 import com.hoa.windchipi.repository.ProductRepository;
 
 @Service
@@ -17,6 +19,12 @@ public class ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private OrderRepository orderRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
+	
 	public List<ProductDTO> searchAllAndKeyWord(String keyword) {
 		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
 		productRepository.searchAllAndKeyWord(keyword).forEach(item -> {
@@ -89,11 +97,35 @@ public class ProductService {
 	public int getTotalProduct(Long id) {
 		return productRepository.findById(id).get().getTotal();
 	}
-//	public List<ProductDTO> getProductByQueryIn(List<String> ids){
-//		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
-//		productRepository.getProductByQueryIn(ids).forEach(item -> {
-//			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(), item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
-//		});
-//		return productsDTO;
-//	}
+	
+	public int getSize() {
+		return productRepository.findAll().size();
+	}
+	
+	public List<ProductDTO> paging(int page){
+		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+		productRepository.findAll(PageRequest.of(page, 5)).getContent().forEach(item -> {
+			productDTOs.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+		});
+		return productDTOs;
+	}
+	
+	/* START DELETE PRODUCT */
+	public int getSizeOrderByProduct(Long id) {
+		Product product = new Product();
+		product.setId(id);
+		return orderRepository.findByProduct(product).size();
+	}
+	
+	public int getSizeCommentByProduct(Long id) {
+		Product product = new Product();
+		product.setId(id);
+		return commentRepository.findByProduct(product).size();
+	}
+	
+	public void deleteProductByAdmin(Long id) {
+		productRepository.deleteById(id);
+	}
+	/* END DELETE PRODUCT */
 }

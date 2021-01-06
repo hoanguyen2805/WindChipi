@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,10 +68,36 @@ public class ProductController {
 	public ResponseEntity<Integer> getTotalProduct(@PathVariable("id") Long id){
 		return new ResponseEntity<Integer>(productService.getTotalProduct(id), HttpStatus.OK);
 	}
-//	@PostMapping("/productscart")
-//	public ResponseEntity<List<ProductDTO>> getProductByQueryIn(@RequestBody String[] listids ){
-//		List<String> list_id = new ArrayList<String>(Arrays.asList(listids));
-//		return new ResponseEntity<List<ProductDTO>>(productService.getProductByQueryIn(list_id), HttpStatus.OK);
-//	}
+
+	@GetMapping("/size")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Integer> getSize(){
+		return new ResponseEntity<Integer>(productService.getSize(), HttpStatus.OK);
+	}
 	
+	@GetMapping("/page/{page}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<ProductDTO>> paging(@PathVariable int page){
+		return new ResponseEntity<List<ProductDTO>>(productService.paging(page), HttpStatus.OK);
+	}
+	
+	/* delete product */
+	@GetMapping("/sizeorder/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Integer> getSizeOrderByProduct(@PathVariable Long id){
+		return new ResponseEntity<Integer>(productService.getSizeOrderByProduct(id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/sizecomment/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Integer> getSizeCommentByProduct(@PathVariable Long id){
+		return new ResponseEntity<Integer>(productService.getSizeCommentByProduct(id), HttpStatus.OK);
+	}
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<String> deleteProductByAdmin(@PathVariable Long id){
+		productService.deleteProductByAdmin(id);
+		return new ResponseEntity<String>("Delete!", HttpStatus.OK);
+	}
+	/* END */
 }
