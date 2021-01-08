@@ -23,6 +23,8 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String images;
+	private String images2;
+	private String images3;
 	private String name;
 	private double price;
 	private int sold;
@@ -132,11 +134,21 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", images=" + images + ", name=" + name + ", price=" + price + ", sold=" + sold
-				+ ", total=" + total + ", describe=" + describe + ", comments=" + comments + ", orders=" + orders
-				+ ", category=" + category + "]";
+	
+	public String getImages2() {
+		return images2;
+	}
+
+	public void setImages2(String images2) {
+		this.images2 = images2;
+	}
+
+	public String getImages3() {
+		return images3;
+	}
+
+	public void setImages3(String images3) {
+		this.images3 = images3;
 	}
 	
 

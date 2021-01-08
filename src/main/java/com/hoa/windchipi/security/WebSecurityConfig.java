@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/products/**").permitAll()
 			.antMatchers("/api/comments/**").permitAll()
 			.antMatchers("/api/orders/**").permitAll()
+			.antMatchers("/api/files/**").permitAll()
 			.anyRequest().authenticated();	//tất cả các request khác phải xác thực mới được truy cập
 		//.permit() cho phép	.authenticated() cấm hoặc yêu câu xác thực
 

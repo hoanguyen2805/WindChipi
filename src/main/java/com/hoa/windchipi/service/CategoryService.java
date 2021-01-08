@@ -28,7 +28,8 @@ public class CategoryService {
 			List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
 			item.getProducts().forEach(pt -> {
 				productDTOs.add(new ProductDTO(pt.getId(), pt.getName(), pt.getPrice(), pt.getImages(), pt.getSold(),
-						pt.getTotal(), pt.getDescribe(), pt.getCategory().getId()));
+						pt.getTotal(), pt.getDescribe(), pt.getCategory().getId(), 
+						pt.getImages2(), pt.getImages3()));
 			});
 			categoryDTO.setProducts(productDTOs);
 			categoryDTOs.add(categoryDTO);
@@ -45,7 +46,8 @@ public class CategoryService {
 			List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
 			category.getProducts().forEach(item -> {
 				productDTOs.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-						item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+						item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+						item.getImages2(), item.getImages3()));
 			});
 			return new CategoryDTO(category.getId(), category.getName(), productDTOs);
 		}

@@ -16,4 +16,6 @@ public class ProductDTO {
 	private int total;
 	private String describe;
 	private Long categories_id;
+	private String images2;
+	private String images3;
 }

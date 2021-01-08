@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.hoa.windchipi.entity.Category;
 import com.hoa.windchipi.entity.Product;
 import com.hoa.windchipi.model.ProductDTO;
 import com.hoa.windchipi.repository.CommentRepository;
@@ -29,7 +30,8 @@ public class ProductService {
 		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
 		productRepository.searchAllAndKeyWord(keyword).forEach(item -> {
 			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
 		});
 		return productsDTO;
 	}
@@ -38,7 +40,8 @@ public class ProductService {
 		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
 		productRepository.searchCategoryAndKeyWord(category, keyword).forEach(item -> {
 			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
 		});
 		return productsDTO;
 	}
@@ -47,7 +50,8 @@ public class ProductService {
 		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
 		productRepository.searchCategory(category).forEach(item -> {
 			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
 		});
 		return productsDTO;
 	}
@@ -56,7 +60,8 @@ public class ProductService {
 		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
 		productRepository.findAll().forEach(item -> {
 			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
 		});
 		return productsDTO;
 	}
@@ -68,7 +73,8 @@ public class ProductService {
 			return null;
 		} else {
 			return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImages(),
-					product.getSold(), product.getTotal(), product.getDescribe(), product.getCategory().getId());
+					product.getSold(), product.getTotal(), product.getDescribe(), product.getCategory().getId(),
+					product.getImages2(), product.getImages3());
 		}
 	}
 
@@ -76,7 +82,8 @@ public class ProductService {
 		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
 		productRepository.findAll(PageRequest.of(0, 8, Sort.by("id").descending())).getContent().forEach(item -> {
 			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
 		});
 		return productsDTO;
 	}
@@ -85,7 +92,8 @@ public class ProductService {
 		List<ProductDTO> productsDTO = new ArrayList<ProductDTO>();
 		productRepository.findAll(PageRequest.of(0, 4, Sort.by("sold").descending())).getContent().forEach(item -> {
 			productsDTO.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
 		});
 		return productsDTO;
 	}
@@ -104,9 +112,10 @@ public class ProductService {
 	
 	public List<ProductDTO> paging(int page){
 		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-		productRepository.findAll(PageRequest.of(page, 5)).getContent().forEach(item -> {
+		productRepository.findAll(PageRequest.of(page, 8)).getContent().forEach(item -> {
 			productDTOs.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
-					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId()));
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
 		});
 		return productDTOs;
 	}
@@ -128,4 +137,21 @@ public class ProductService {
 		productRepository.deleteById(id);
 	}
 	/* END DELETE PRODUCT */
+	
+	public void save(ProductDTO productDTO) {
+		Product product = new Product();
+		Category category = new Category();
+		category.setId(productDTO.getCategories_id());
+		
+		product.setName(productDTO.getName());
+		product.setCategory(category);
+		product.setPrice(productDTO.getPrice());
+		product.setImages(productDTO.getImages());
+		product.setSold(productDTO.getSold());
+		product.setTotal(productDTO.getTotal());
+		product.setDescribe(productDTO.getDescribe());
+		product.setImages2(productDTO.getImages2());
+		product.setImages3(productDTO.getImages3());
+		productRepository.save(product);
+	}
 }
