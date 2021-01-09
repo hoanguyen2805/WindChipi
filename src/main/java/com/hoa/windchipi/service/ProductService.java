@@ -153,5 +153,24 @@ public class ProductService {
 		product.setImages2(productDTO.getImages2());
 		product.setImages3(productDTO.getImages3());
 		productRepository.save(product);
+		
+	}
+	
+	public void update(ProductDTO productDTO) {
+		Product product = new Product();
+		Category category = new Category();
+		category.setId(productDTO.getCategories_id());
+		
+		product.setId(productDTO.getId());
+		product.setName(productDTO.getName());
+		product.setCategory(category);
+		product.setPrice(productDTO.getPrice());
+		product.setImages(productDTO.getImages());
+		product.setSold(productDTO.getSold());
+		product.setTotal(productDTO.getTotal());
+		product.setDescribe(productDTO.getDescribe());
+		product.setImages2(productDTO.getImages2());
+		product.setImages3(productDTO.getImages3());
+		productRepository.save(product);
 	}
 }
