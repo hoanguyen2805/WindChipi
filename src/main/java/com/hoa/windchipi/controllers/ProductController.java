@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoa.windchipi.entity.Product;
+import com.hoa.windchipi.model.ContactDTO;
 import com.hoa.windchipi.model.ProductDTO;
 import com.hoa.windchipi.service.ProductService;
 
@@ -116,5 +118,16 @@ public class ProductController {
 	public ResponseEntity<String> update(@RequestBody ProductDTO productDTO){
 		productService.update(productDTO);
 		return new ResponseEntity<String>("updated!", HttpStatus.OK);
+	}
+	
+	@GetMapping("/search")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<ProductDTO>> searchProduct(@RequestParam("content") String content, @RequestParam("page") int page){
+		return new ResponseEntity<List<ProductDTO>>(productService.searchProduct(content, page), HttpStatus.OK);
+	}
+	@GetMapping("/getsize")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Integer> getSizeSearch(@RequestParam("content") String content){
+		return new ResponseEntity<Integer>(productService.getSizeSearch(content), HttpStatus.OK);
 	}
 }

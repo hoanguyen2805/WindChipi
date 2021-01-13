@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoa.windchipi.entity.ERole;
@@ -164,5 +165,16 @@ public class UserController {
 		user.setRoles(roles);
 		userService.save(user);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/search")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<User>> searchUser(@RequestParam("content") String content, @RequestParam("page") int page){
+		return new ResponseEntity<List<User>>(userService.searchUser(content, page), HttpStatus.OK);
+	}
+	@GetMapping("/getsize")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Integer> getSizeSearch(@RequestParam("content") String content){
+		return new ResponseEntity<Integer>(userService.getSizeSearch(content), HttpStatus.OK);
 	}
 }

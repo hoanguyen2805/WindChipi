@@ -173,4 +173,18 @@ public class ProductService {
 		product.setImages3(productDTO.getImages3());
 		productRepository.save(product);
 	}
+	
+	public List<ProductDTO> searchProduct(String content, int page){
+		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
+		productRepository.searchProduct(content, PageRequest.of(page, 8)).getContent().forEach(item -> {
+			productDTOs.add(new ProductDTO(item.getId(), item.getName(), item.getPrice(), item.getImages(),
+					item.getSold(), item.getTotal(), item.getDescribe(), item.getCategory().getId(),
+					item.getImages2(), item.getImages3()));
+		});
+		return productDTOs;
+	}
+	
+	public int getSizeSearch(String content) {
+		return productRepository.getSizeSearch(content).size();
+	}
 }

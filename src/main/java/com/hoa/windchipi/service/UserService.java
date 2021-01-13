@@ -57,4 +57,10 @@ public class UserService {
 		userRepository.deleteById(id);
 	}
 	
+	public List<User> searchUser(String content, int page){
+		return userRepository.searchUser(content, PageRequest.of(page, 5)).getContent();
+	}
+	public int getSizeSearch(String content) {
+		return userRepository.getSizeSearch(content).size();
+	}
 }

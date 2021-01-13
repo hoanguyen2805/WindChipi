@@ -68,4 +68,18 @@ public class CommentService {
 	public void deletebyId(Long id) {
 		commentRepository.deleteById(id);
 	}
+
+	public List<CommentDTO> searchComment(String content, int page){
+		List<CommentDTO> commentDTOs = new ArrayList<CommentDTO>();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm:ss");
+		commentRepository.searchComment(content, PageRequest.of(page, 5)).getContent().forEach(item -> {
+			commentDTOs.add(new CommentDTO(item.getId(), item.getComment_content(), sdf.format(item.getDate_created()),
+					item.getUser().getUsername(), item.getUser().getId(), item.getProduct().getName(),
+					item.getProduct().getId()));
+		});
+		return commentDTOs;
+	}
+	public int getSizeSearch(String content) {
+		return commentRepository.getSizeSearch(content).size();
+	}
 }

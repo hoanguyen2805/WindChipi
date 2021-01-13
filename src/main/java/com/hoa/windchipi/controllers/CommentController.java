@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoa.windchipi.entity.User;
@@ -75,6 +76,17 @@ public class CommentController {
 	public ResponseEntity<String> deleteById(@PathVariable Long id) {
 		commentService.deletebyId(id);
 		return new ResponseEntity<String>("Deleted!", HttpStatus.OK);
+	}
+	
+	@GetMapping("/search")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<CommentDTO>> searchComment(@RequestParam("content") String content, @RequestParam("page") int page){
+		return new ResponseEntity<List<CommentDTO>>(commentService.searchComment(content, page), HttpStatus.OK);
+	}
+	@GetMapping("/getsize")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Integer> getSizeSearch(@RequestParam("content") String content){
+		return new ResponseEntity<Integer>(commentService.getSizeSearch(content), HttpStatus.OK);
 	}
 
 }

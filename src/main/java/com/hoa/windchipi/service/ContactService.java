@@ -54,4 +54,17 @@ public class ContactService {
 		contactRepository.deleteById(id);
 	}
 	
+	public List<ContactDTO> searchContact(String content, int page){
+		List<ContactDTO> contactDTOs = new ArrayList<ContactDTO>();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm:ss");
+		contactRepository.searchContact(content, PageRequest.of(page, 5)).getContent().forEach(item -> {
+			contactDTOs.add(new ContactDTO(item.getId(), item.getEmail(), item.getFull_name(),
+					item.getMessage(), item.getPhone(), sdf.format(item.getDate_created())));
+		});
+		return contactDTOs;
+	}
+	
+	public int getSizeSearch(String content) {
+		return contactRepository.getSizeSearch(content).size();
+	}
 }

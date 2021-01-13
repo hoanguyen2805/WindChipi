@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.hoa.windchipi.model.CommentDTO;
 import com.hoa.windchipi.model.ContactDTO;
 import com.hoa.windchipi.service.ContactService;
 
@@ -50,5 +53,16 @@ public class ContactController {
 	public ResponseEntity<String> delete(@PathVariable Long id){
 		contactService.delete(id);
 		return new ResponseEntity<String>("Deleted", HttpStatus.OK);
+	}
+	
+	@GetMapping("/search")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<ContactDTO>> searchContact(@RequestParam("content") String content, @RequestParam("page") int page){
+		return new ResponseEntity<List<ContactDTO>>(contactService.searchContact(content, page), HttpStatus.OK);
+	}
+	@GetMapping("/getsize")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Integer> getSizeSearch(@RequestParam("content") String content){
+		return new ResponseEntity<Integer>(contactService.getSizeSearch(content), HttpStatus.OK);
 	}
 }
