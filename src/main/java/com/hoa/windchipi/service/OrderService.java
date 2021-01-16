@@ -25,42 +25,45 @@ public class OrderService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	public void save(Long id_product, int number_products, Long id_user) {
-		Product product = productRepository.findById(id_product).get();
+	public void save(OrderDTO orderDTO, User user) {
+		Product product = productRepository.findById(orderDTO.getIdProduct()).get();
 		double freight_cost = 0;
-		double total_money = product.getPrice() * number_products;
-		if (product.getPrice() * number_products < 200000) {
+		double total_money = product.getPrice() * orderDTO.getNumber_products();
+		if (product.getPrice() * orderDTO.getNumber_products() < 200000) {
 			freight_cost = 20000;
 			total_money = total_money + freight_cost;
 		}
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
 		Order order = new Order();
-		User user = new User();
-		user.setId(id_user);
 
 		order.setUser(user);
 		order.setProduct(product);
-		order.setNumberProducts(number_products);
+		order.setNumberProducts(orderDTO.getNumber_products());
 		order.setTotalMoney(total_money);
 		order.setStatus("chờ xác nhận");
 		order.setFreightCost(freight_cost);
 		order.setPrice(product.getPrice());
 
 		order.setDate_created(timestamp);
+		order.setSize(orderDTO.getSize());
+		order.setFull_name(orderDTO.getFull_name());
+		order.setAddress(orderDTO.getAddress());
+		order.setPhone(orderDTO.getPhone());
 		orderRepository.save(order);
-		product.setTotal(product.getTotal() - number_products);
-		product.setSold(product.getSold() + number_products);
+		product.setTotal(product.getTotal() - orderDTO.getNumber_products());
+		product.setSold(product.getSold() + orderDTO.getNumber_products());
 		productRepository.save(product);
 	}
 
-	public List<OrderDTO> getByUser(User user) {
+	public List<OrderDTO> getOrdersByUser(User user) {
 		List<OrderDTO> orderDTOs = new ArrayList<OrderDTO>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm:ss");
-		orderRepository.findByUser(user).forEach(item -> {
+		orderRepository.findByUserOrderByStatusAsc(user).forEach(item -> {
 			orderDTOs.add(new OrderDTO(item.getId(), item.getProduct().getName(), item.getProduct().getId(),
 					item.getProduct().getPrice(), item.getNumberProducts(), item.getStatus(), item.getTotalMoney(),
 					item.getFreightCost(), sdf.format(item.getDate_created()), item.getUser().getUsername(),
-					item.getUser().getId()));
+					item.getUser().getId(), item.getSize(), item.getFull_name(), item.getAddress(), item.getPhone()));
 		});
 		return orderDTOs;
 	}
@@ -69,22 +72,27 @@ public class OrderService {
 		List<OrderDTO> orderDTOs = new ArrayList<OrderDTO>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm:ss");
 		orderRepository.findAll(PageRequest.of(page, 5, Sort.by("status"))).getContent().forEach(item -> {
-			orderDTOs.add(
-					new OrderDTO(item.getId(), item.getProduct().getName(), item.getProduct().getId(), item.getPrice(),
-							item.getNumberProducts(), item.getStatus(), item.getTotalMoney(), item.getFreightCost(),
-							sdf.format(item.getDate_created()), item.getUser().getUsername(), item.getUser().getId()));
+			orderDTOs.add(new OrderDTO(item.getId(), item.getProduct().getName(), item.getProduct().getId(),
+					item.getPrice(), item.getNumberProducts(), item.getStatus(), item.getTotalMoney(),
+					item.getFreightCost(), sdf.format(item.getDate_created()), item.getUser().getUsername(),
+					item.getUser().getId(), item.getSize(), item.getFull_name(), item.getAddress(), item.getPhone()));
 		});
 		return orderDTOs;
 	}
 
-	public List<OrderDTO> getSize() {
+//
+	public int getSizeSearch(String content) {
+		return orderRepository.getSizeSearch(content).size();
+	}
+
+	public List<OrderDTO> searchOrder(String content, int page) {
 		List<OrderDTO> orderDTOs = new ArrayList<OrderDTO>();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm:ss");
-		orderRepository.findAll().forEach(item -> {
-			orderDTOs.add(
-					new OrderDTO(item.getId(), item.getProduct().getName(), item.getProduct().getId(), item.getPrice(),
-							item.getNumberProducts(), item.getStatus(), item.getTotalMoney(), item.getFreightCost(),
-							sdf.format(item.getDate_created()), item.getUser().getUsername(), item.getUser().getId()));
+		orderRepository.searchOrder(content, PageRequest.of(page, 5, Sort.by("status"))).getContent().forEach(item -> {
+			orderDTOs.add(new OrderDTO(item.getId(), item.getProduct().getName(), item.getProduct().getId(),
+					item.getPrice(), item.getNumberProducts(), item.getStatus(), item.getTotalMoney(),
+					item.getFreightCost(), sdf.format(item.getDate_created()), item.getUser().getUsername(),
+					item.getUser().getId(), item.getSize(), item.getFull_name(), item.getAddress(), item.getPhone()));
 		});
 		return orderDTOs;
 	}

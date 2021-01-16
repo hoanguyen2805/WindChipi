@@ -20,4 +20,8 @@ public class OrderDTO {
 	private String username;
 	private Long idUser;
 	
+	private String size;
+	private String full_name;
+	private String address;
+	private String phone;
 }

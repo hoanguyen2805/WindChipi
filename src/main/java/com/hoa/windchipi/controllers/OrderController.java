@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -38,9 +40,9 @@ public class OrderController {
 	
 	@Autowired
 	UserService userService;
-	@GetMapping("/save/{id}/{number}")
+	@PostMapping("/save")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	public ResponseEntity<?> save(@PathVariable Long id, @PathVariable int number, HttpServletRequest request){
+	public ResponseEntity<String> save(@RequestBody OrderDTO orderDTO, HttpServletRequest request){
 		String token = null;
 		String headerAuth = request.getHeader("Authorization");
 
@@ -50,11 +52,11 @@ public class OrderController {
 		String username = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.findUserByName(username);
 		
-		orderService.save(id, number, user.getId());
-		return new ResponseEntity<>(HttpStatus.OK);
+		orderService.save(orderDTO, user);
+		return new ResponseEntity<String>("saved!", HttpStatus.OK);
 	}
 	
-	@GetMapping("/getbyuser")
+	@GetMapping("/getordersbyuser")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<List<OrderDTO>> getByUser(HttpServletRequest request){
 		String token = null;
@@ -65,7 +67,7 @@ public class OrderController {
 		}
 		String username = jwtUtils.getUserNameFromJwtToken(token);
 		User user = userService.findUserByName(username);
-		return new ResponseEntity<List<OrderDTO>>(orderService.getByUser(user),HttpStatus.OK);
+		return new ResponseEntity<List<OrderDTO>>(orderService.getOrdersByUser(user),HttpStatus.OK);
 	}
 	
 	@GetMapping("/page/{page}")
@@ -74,10 +76,10 @@ public class OrderController {
 		return new ResponseEntity<List<OrderDTO>>(orderService.paging(page), HttpStatus.OK);
 	}
 	
-	@GetMapping("/size")
+	@GetMapping("/getsize")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<List<OrderDTO>> getSize(){
-		return new ResponseEntity<List<OrderDTO>>(orderService.getSize(), HttpStatus.OK);
+	public ResponseEntity<Integer> getSize(@RequestParam("content") String content){
+		return new ResponseEntity<Integer>(orderService.getSizeSearch(content), HttpStatus.OK);
 	}
 	
 	@DeleteMapping({"/{id}"})
@@ -92,5 +94,11 @@ public class OrderController {
 	public ResponseEntity<String> updateThem(@RequestBody OrderDTO orderDTO, @PathVariable int bot){
 			orderService.update(orderDTO, bot);
 		return new ResponseEntity<String>("updated!", HttpStatus.OK);
+	}
+	
+	@GetMapping("/search")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<OrderDTO>> searchOrder(@RequestParam("content") String content, @RequestParam("page") int page){
+		return new ResponseEntity<List<OrderDTO>>(orderService.searchOrder(content, page), HttpStatus.OK);
 	}
 }
