@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoa.windchipi.entity.Product;
-import com.hoa.windchipi.model.ContactDTO;
 import com.hoa.windchipi.model.ProductDTO;
 import com.hoa.windchipi.service.ProductService;
 

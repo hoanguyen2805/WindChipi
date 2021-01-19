@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.hoa.windchipi.model.CommentDTO;
 import com.hoa.windchipi.model.ContactDTO;
 import com.hoa.windchipi.service.ContactService;
 
@@ -28,9 +26,9 @@ public class ContactController {
 	private ContactService contactService;
 
 	@PostMapping("/contact")
-	public ResponseEntity<?> createContact(@RequestBody ContactDTO contact) {
+	public ResponseEntity<String> createContact(@RequestBody ContactDTO contact) {
 		contactService.save(contact);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<String>("created!", HttpStatus.OK);
 	}
 
 	

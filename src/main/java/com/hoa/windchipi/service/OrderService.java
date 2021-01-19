@@ -107,7 +107,10 @@ public class OrderService {
 		order.setStatus(orderDTO.getStatus());
 		order.setPrice(orderDTO.getPrice());
 		order.setDate_created(orderRepository.findById(orderDTO.getId()).get().getDate_created());
-
+		order.setSize(orderDTO.getSize());
+		order.setFull_name(orderDTO.getFull_name());
+		order.setAddress(orderDTO.getAddress());
+		order.setPhone(orderDTO.getPhone());
 		User user = new User();
 		user.setId(orderDTO.getIdUser());
 		order.setUser(user);
